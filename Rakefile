@@ -1,9 +1,2 @@
-task default: 'test:exec'
-
-namespace :test do
-  desc 'Execute tests.'
-  task :exec do
-  
-  end
-
-end
+require "sinatra/activerecord/rake"
+require "./app"
