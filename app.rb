@@ -12,11 +12,11 @@ module BovespaSaas
   class App < Sinatra::Base
 
     register Sinatra::ActiveRecordExtension
-    set :database, "sqlite3:///development.sqlite3.db"
+    set :database, "sqlite3:///#{ENV['RACK_ENV']}.sqlite3.db"
 
     get '/' do
       # puts Models::Stock.all.first.codigo
-      'It works!'
+      "It works!"
     end
 
     get '/stock/:stock/:year/:month/:day' do
