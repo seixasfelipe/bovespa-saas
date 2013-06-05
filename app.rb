@@ -22,7 +22,7 @@ module BovespaSaas
     get '/stock/:stock/:year/:month/:day' do
       date        = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
       stock_code  = params[:stock]
-      stock = Models::Stock.where(:ticker_symbol => stock_code, :date => date).first
+      stock = Models::Stock.where(:ticker_symbol => stock_code.upcase, :date => date).first
 
       unless stock.nil?
         { 
