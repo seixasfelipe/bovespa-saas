@@ -12,7 +12,7 @@ module BovespaSaas
   class App < Sinatra::Base
 
     register Sinatra::ActiveRecordExtension
-    set :database, "sqlite3:///#{ENV['RACK_ENV']}.sqlite3.db"
+    set :database, "sqlite3:///db/#{ENV['RACK_ENV']}.sqlite3.db"
 
     get '/' do
       # puts Models::Stock.all.first.codigo
