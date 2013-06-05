@@ -5,7 +5,7 @@ module BovespaSaas
 
   module Models
     class Stock < ActiveRecord::Base
-      self.table_name = "ativos"
+      self.table_name = "stock_quotes"
     end
   end
 
@@ -22,12 +22,12 @@ module BovespaSaas
     get '/stock/:stock/:year/:month/:day' do
       date        = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
       stock_code  = params[:stock]
-      stock = Models::Stock.where(:codigo => stock_code, :data => date).first
+      stock = Models::Stock.where(:ticker_symbol => stock_code, :date => date).first
 
       unless stock.nil?
         { 
-          codigo: stock.codigo,
-          preco_abertura: stock.preco_abertura
+          ticker_symbol: stock.ticker_symbol,
+          opening_price: stock.opening_price
         }.to_json 
       else
         404
