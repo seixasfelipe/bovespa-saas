@@ -6,6 +6,19 @@ module BovespaSaas
   module Models
     class Stock < ActiveRecord::Base
       self.table_name = "stock_quotes"
+
+      def to_hash
+        attrs = dup.attributes
+
+        [ "bdi_code", 
+          "created_at", 
+          "historical_stock_quote_id", 
+          "market_type", 
+          "prazo_termo",
+          "updated_at"].each { |key| attrs.delete(key) }
+
+        attrs
+      end
     end
   end
 
@@ -15,7 +28,6 @@ module BovespaSaas
     set :database, "sqlite3:///db/#{ENV['RACK_ENV']}.sqlite3.db"
 
     get '/' do
-      # puts Models::Stock.all.first.codigo
       "It works!"
     end
 
@@ -24,11 +36,8 @@ module BovespaSaas
       stock_code  = params[:stock]
       stock = Models::Stock.where(:ticker_symbol => stock_code.upcase, :date => date).first
 
-      unless stock.nil?
-        { 
-          ticker_symbol: stock.ticker_symbol,
-          opening_price: stock.opening_price
-        }.to_json 
+      unless stock.nil? 
+        stock.to_hash.to_json
       else
         404
       end
